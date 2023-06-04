@@ -1,4 +1,4 @@
-package days
+package day2
 
 import (
 	"bufio"
@@ -71,7 +71,7 @@ func getNextMove(hand string, symbol string) string {
 func Day2() {
 	initVariables()
 
-	file, err := os.Open("days/day2-input.txt")
+	file, err := os.Open("day2/day2-input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

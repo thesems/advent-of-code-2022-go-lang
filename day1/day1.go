@@ -1,4 +1,4 @@
-package days
+package day1
 
 import (
 	"bufio"
@@ -10,7 +10,7 @@ import (
 )
 
 func Day1() {
-	file, err := os.Open("days/day1-input.txt")
+	file, err := os.Open("day1/day1-input.txt")
 
 	if err != nil {
 		log.Fatal(err)
