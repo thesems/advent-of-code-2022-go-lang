@@ -11,6 +11,7 @@ import (
 var moves = make(map[string]map[string]string)
 var points_per_shape = make(map[string]int)
 var points_per_outcome = make(map[int]int)
+var winner = make(map[string]map[string]int)
 
 func initVariables() {
 	moves["A"] = make(map[string]string)
@@ -35,33 +36,24 @@ func initVariables() {
 	points_per_outcome[-1] = 3
 	points_per_outcome[1] = 6
 	points_per_outcome[0] = 0
+
+	winner["A"] = make(map[string]int)
+	winner["B"] = make(map[string]int)
+	winner["C"] = make(map[string]int)
+
+	winner["A"]["X"] = -1
+	winner["A"]["Y"] = 1
+	winner["A"]["Z"] = 0
+	winner["B"]["X"] = 0
+	winner["B"]["Y"] = -1
+	winner["B"]["Z"] = 1
+	winner["C"]["X"] = 1
+	winner["C"]["Y"] = 0
+	winner["C"]["Z"] = -1
 }
 
 func getWinner(hand1 string, hand2 string) int {
-	if hand1 == "A" && hand2 == "Y" {
-		return 1
-	} else if hand1 == "B" && hand2 == "X" {
-		return 0
-	}
-
-	if hand1 == "A" && hand2 == "Z" {
-		return 0
-	} else if hand1 == "C" && hand2 == "X" {
-		return 1
-	}
-
-	if hand1 == "B" && hand2 == "Z" {
-		return 1
-	} else if hand1 == "C" && hand2 == "Y" {
-		return 0
-	}
-
-	if (hand1 == "A" && hand2 == "X") || (hand1 == "B" && hand2 == "Y") ||
-		(hand1 == "C" && hand2 == "Z") {
-		return -1
-	}
-
-	panic("should not be reachable!")
+	return winner[hand1][hand2]
 }
 
 func getNextMove(hand string, symbol string) string {
