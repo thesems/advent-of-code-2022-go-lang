@@ -10,7 +10,9 @@ import (
 func Day4() {
 	contents := utils.GetFileContents("day4/input")
 
-	counter := 0
+	fullyContainsCounter := 0
+	overlapCounter := 0
+
 	for _, line := range contents {
 		pairs := strings.Split(line, ",")
 		pair1 := strings.Split(pairs[0], "-")
@@ -26,11 +28,18 @@ func Day4() {
 		}
 
 		if val1 >= val3 && val2 <= val4 {
-			counter += 1
+			fullyContainsCounter += 1
 		} else if val3 >= val1 && val4 <= val2 {
-			counter += 1
+			fullyContainsCounter += 1
+		}
+
+		if val1 >= val3 && val1 <= val4 {
+			overlapCounter += 1
+		} else if val3 >= val1 && val3 <= val2 {
+			overlapCounter += 1
 		}
 	}
 
-	log.Println(counter)
+	log.Println("Part 1: ", fullyContainsCounter)
+	log.Println("Part 2: ", overlapCounter)
 }
