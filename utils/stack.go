@@ -19,11 +19,28 @@ func (s *Stack) Pop() (rune, error) {
 		s.items = s.items[:len(s.items)-1]
 		return ch, nil
 	}
-	return '-', errors.New("out of bounds")
+	return ' ', errors.New("out of bounds")
+}
+
+func (s *Stack) Clear() {
+	s.items = nil
+}
+
+func (s *Stack) GetTop() (rune, error) {
+	if len(s.items) > 0 {
+		return s.items[len(s.items)-1], nil
+	}
+	return ' ', errors.New("stack empty")
 }
 
 func (s *Stack) Print() {
-	for _, item := range s.items {
-		fmt.Printf("[%c]\n", item)
+	for i := len(s.items) - 1; i >= 0; i-- {
+		symbol := ""
+		if i == len(s.items)-1 {
+			symbol = "<- top"
+		} else if i == 0 {
+			symbol = "<- bottom"
+		}
+		fmt.Printf("[%c] %s\n", s.items[i], symbol)
 	}
 }
