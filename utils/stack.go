@@ -14,23 +14,23 @@ func (s *Stack) Push(item rune) {
 }
 
 func (s *Stack) Pop() (rune, error) {
-	if len(s.items) > 0 {
-		ch := s.items[len(s.items)-1]
-		s.items = s.items[:len(s.items)-1]
-		return ch, nil
+	if s.IsEmpty() {
+		return ' ', errors.New("out of bounds")
 	}
-	return ' ', errors.New("out of bounds")
+	ch := s.items[len(s.items)-1]
+	s.items = s.items[:len(s.items)-1]
+	return ch, nil
 }
 
-func (s *Stack) Clear() {
-	s.items = nil
+func (s *Stack) Top() (rune, error) {
+	if s.IsEmpty() {
+		return ' ', errors.New("stack empty")
+	}
+	return s.items[len(s.items)-1], nil
 }
 
-func (s *Stack) GetTop() (rune, error) {
-	if len(s.items) > 0 {
-		return s.items[len(s.items)-1], nil
-	}
-	return ' ', errors.New("stack empty")
+func (s *Stack) IsEmpty() bool {
+	return len(s.items) == 0
 }
 
 func (s *Stack) Print() {

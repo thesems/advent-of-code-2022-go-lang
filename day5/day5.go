@@ -52,7 +52,7 @@ func (c *Cargo) AddCrates() {
 
 func (c *Cargo) PrintTop() {
 	for i := 0; i < len(c.stacks); i++ {
-		ch, err := c.stacks[i].GetTop()
+		ch, err := c.stacks[i].Top()
 		if err != nil {
 			continue
 		}
