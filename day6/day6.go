@@ -14,7 +14,7 @@ func Day6() {
 	for i := 0; i < len(data); i++ {
 		queue_part1.Add(int(data[i]))
 
-		if queue_part1.Distict() && i > 3 {
+		if queue_part1.Distinct() && i > 3 {
 			fmt.Println("Result part 1: ", i+1)
 			break
 		}
@@ -22,7 +22,7 @@ func Day6() {
 
 	for i := 0; i < len(data); i++ {
 		queue_part2.Add(int(data[i]))
-		if queue_part2.Distict() && i > 3 {
+		if queue_part2.Distinct() && i > 3 {
 			fmt.Println("Result part 2: ", i+1)
 			break
 		}

@@ -12,7 +12,7 @@ func CreateEvictingQueue(size int) *EvictingQueue {
 	return queue
 }
 
-func (q *EvictingQueue) Distict() bool {
+func (q *EvictingQueue) Distinct() bool {
 	// https://www.youtube.com/watch?v=YQs6IC-vgmo&t=0s&ab_channel=AlessandroStamatto
 	// Method 1. use maps to detect duplicates (via collisions)
 	// m := make(map[int]bool)
