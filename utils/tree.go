@@ -38,24 +38,28 @@ func (n *Node) CalculateSize() {
 	}
 }
 
-func (n *Node) CountDirSize(sizeLimit int) int {
+func (n *Node) CountDirSize(limit int) int {
 	var size int = 0
 	for _, node := range n.children {
 		if node.is_file {
 			continue
 		}
 
-		if node.size < sizeLimit {
+		if node.size < limit {
 			size += node.size
 		}
 
-		size += node.CountDirSize(sizeLimit)
+		size += node.CountDirSize(limit)
 	}
 	return size
 }
 
 func (n *Node) Size() int {
 	return n.size
+}
+
+func (n *Node) Name() string {
+	return n.name
 }
 
 func (n *Node) Parent() *Node {
@@ -69,4 +73,23 @@ func (n *Node) ExistChild(name string) (*Node, error) {
 		}
 	}
 	return nil, errors.New("no child by name: " + name)
+}
+
+func (n *Node) FindSmallestDirAboveLimit(smallestNode *Node, limit int) *Node {
+	for _, node := range n.children {
+		if node.is_file {
+			continue
+		}
+
+		if node.size > limit {
+			if smallestNode == nil {
+				smallestNode = node
+			} else if node.size < smallestNode.size {
+				smallestNode = node
+			}
+
+			smallestNode = node.FindSmallestDirAboveLimit(smallestNode, limit)
+		}
+	}
+	return smallestNode
 }

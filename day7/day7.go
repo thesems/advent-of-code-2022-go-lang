@@ -63,6 +63,13 @@ func Day7() {
 	}
 
 	rootNode.CalculateSize()
-	// fmt.Println("Total size: ", rootNode.Size())
-	fmt.Println("Total size till 100k: ", rootNode.CountDirSize(100000))
+	fmt.Println("Result Part 1: ", rootNode.CountDirSize(100000))
+
+	sizeNeeded := 30000000 - (70000000 - rootNode.Size())
+	var deleteDir *utils.Node = nil
+	deleteDir = rootNode.FindSmallestDirAboveLimit(deleteDir, sizeNeeded)
+	if deleteDir == nil {
+		log.Fatal("no dir found to delete")
+	}
+	fmt.Println("Result Part 2: ", deleteDir.Name(), deleteDir.Size())
 }
