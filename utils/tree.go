@@ -13,12 +13,14 @@ type Node struct {
 	name     string
 }
 
+// Constructor for Node
 func NewNode(parent *Node, size int, is_file bool, name string) *Node {
 	var children []*Node
 	node := Node{parent, children, size, is_file, name}
 	return &node
 }
 
+// Insert a new node to the slice
 func (n *Node) AddNode(node *Node) {
 	if n.is_file {
 		log.Fatal("cannot add to a file")
@@ -27,6 +29,8 @@ func (n *Node) AddNode(node *Node) {
 	n.children = append(n.children, node)
 }
 
+// Recursively transverse children nodes and
+// calculate the sizes of directories and files
 func (n *Node) CalculateSize() {
 	for _, node := range n.children {
 		if node.is_file {
@@ -38,6 +42,8 @@ func (n *Node) CalculateSize() {
 	}
 }
 
+// Recursively transverse children nodes and count
+// directory sizes below a certain limit
 func (n *Node) CountDirSize(limit int) int {
 	var size int = 0
 	for _, node := range n.children {
@@ -66,6 +72,7 @@ func (n *Node) Parent() *Node {
 	return n.parent
 }
 
+// Check if a node has a child with specific name
 func (n *Node) ExistChild(name string) (*Node, error) {
 	for _, node := range n.children {
 		if node.name == name {
@@ -75,6 +82,8 @@ func (n *Node) ExistChild(name string) (*Node, error) {
 	return nil, errors.New("no child by name: " + name)
 }
 
+// Recursively transvese folders and look for the smallest folder
+// that is larger than the specified limit
 func (n *Node) FindSmallestDirAboveLimit(smallestNode *Node, limit int) *Node {
 	for _, node := range n.children {
 		if node.is_file {
