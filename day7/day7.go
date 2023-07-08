@@ -12,6 +12,7 @@ func Day7() {
 	contents := utils.GetFileContents("day7/input")
 
 	rootNode := utils.NewNode(nil, 0, false, "/")
+
 	var activeNode *utils.Node = rootNode
 
 	for idx, line := range contents {
@@ -21,10 +22,13 @@ func Day7() {
 		}
 
 		tokens := strings.Split(line, " ")
+		item := tokens[0]
 
-		// command
-		if tokens[0] == "$" {
-			if tokens[1] == "cd" {
+		switch item {
+		case "$":
+			command := tokens[1]
+			switch command {
+			case "cd":
 				if tokens[2] == ".." {
 					activeNode = activeNode.Parent()
 				} else {
@@ -37,17 +41,18 @@ func Day7() {
 						activeNode = child
 					}
 				}
-			} else {
-				// ls - no action necessary
+			case "ls":
+			default:
+				log.Fatal("unknown command")
 			}
-		} else if tokens[0] == "dir" {
+		case "dir":
 			_, err := activeNode.ExistChild(tokens[1])
 
 			if err != nil {
 				newNode := utils.NewNode(activeNode, 0, false, tokens[1])
 				activeNode.AddNode(newNode)
 			}
-		} else {
+		default:
 			// file
 			_, err := activeNode.ExistChild(tokens[1])
 
