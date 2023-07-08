@@ -8,47 +8,22 @@ import (
 	"strings"
 )
 
-func deleteElement(slice [][2]int, index int) [][2]int {
-	return append(slice[:index], slice[index+1:]...)
-}
-
-func Abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
-
-func Max(x int, y int) int {
-	if x < y {
-		return y
-	}
-	return x
-}
-
-func Min(x int, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
-
 func PrintField(rope [][]int) {
 
 	head := rope[0]
 	tail := rope[len(rope)-1]
 
-	minWidth := Min(head[0], tail[0])
-	maxWidth := Max(head[0], tail[0])
+	minWidth := utils.Min(head[0], tail[0])
+	maxWidth := utils.Max(head[0], tail[0])
 
-	minWidth = Min(minWidth, 0)
-	maxWidth = Max(maxWidth, 6)
+	minWidth = utils.Min(minWidth, 0)
+	maxWidth = utils.Max(maxWidth, 6)
 
-	minHeight := Min(head[1], tail[1])
-	maxHeight := Max(head[1], tail[1])
+	minHeight := utils.Min(head[1], tail[1])
+	maxHeight := utils.Max(head[1], tail[1])
 
-	minHeight = Min(minHeight, 0)
-	maxHeight = Max(maxHeight, 5)
+	minHeight = utils.Min(minHeight, 0)
+	maxHeight = utils.Max(maxHeight, 5)
 
 	fmt.Println("")
 	for i := maxHeight; i >= minHeight; i-- {
@@ -79,8 +54,6 @@ func PrintField(rope [][]int) {
 	}
 }
 
-type set[T comparable] map[T]struct{}
-
 type Point struct {
 	x int
 	y int
@@ -98,7 +71,7 @@ func Day9() {
 		rope[i] = []int{0, 0}
 	}
 
-	visited := set[Point]{}
+	visited := utils.Set[Point]{}
 	visited[Point{0, 0}] = struct{}{}
 
 	if enableLogs {
@@ -139,7 +112,7 @@ func Day9() {
 				diffX := head[0] - tail[0]
 				diffY := head[1] - tail[1]
 
-				if Abs(diffX) > 1 || Abs(diffY) > 1 {
+				if utils.Abs(diffX) > 1 || utils.Abs(diffY) > 1 {
 					if diffX == 0 {
 						tail[1] += diffY / 2
 					} else if diffY == 0 {
@@ -166,5 +139,5 @@ func Day9() {
 		}
 	}
 
-	fmt.Println("Results:", len(visited))
+	fmt.Println("Result:", len(visited))
 }
