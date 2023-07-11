@@ -52,7 +52,6 @@ func Day10() {
 				x += num
 			}
 		}
-
 	}
 
 	fmt.Println("")

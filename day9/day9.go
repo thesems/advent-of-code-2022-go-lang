@@ -67,10 +67,13 @@ func Day9() {
 	// part 1 = 2, part 2 = 10
 	rope := [10][]int{}
 	ropeSize := len(rope)
+
+	// Initialize all rope parts with coordinates (0,0)
 	for i := 0; i < ropeSize; i++ {
 		rope[i] = []int{0, 0}
 	}
 
+	// Set of visited points
 	visited := utils.Set[Point]{}
 	visited[Point{0, 0}] = struct{}{}
 
@@ -93,6 +96,7 @@ func Day9() {
 		}
 
 		for i := 0; i < steps; i++ {
+			// Move head of the rope by 1 in a specified direction
 			if direction == "R" {
 				rope[0][0] += 1
 			} else if direction == "L" {
@@ -105,19 +109,27 @@ func Day9() {
 				log.Fatal("invalid direction")
 			}
 
+			// Move other parts of the rope in the correct position
 			for j := 0; j < ropeSize-1; j++ {
+				// New variables for easier usage
+				// Always move two adjecent rope parts
 				head := rope[j]
 				tail := rope[j+1]
 
+				// Difference between front and back rope parts
 				diffX := head[0] - tail[0]
 				diffY := head[1] - tail[1]
 
+				// If the difference is positive, then adjustment is necessary
 				if utils.Abs(diffX) > 1 || utils.Abs(diffY) > 1 {
 					if diffX == 0 {
+						// Move vertically
 						tail[1] += diffY / 2
 					} else if diffY == 0 {
+						// Move horizontally
 						tail[0] += diffX / 2
 					} else {
+						// Move diagonally
 						if diffX > 0 {
 							tail[0] += 1
 						} else {
@@ -131,6 +143,8 @@ func Day9() {
 					}
 				}
 			}
+
+			// Add point to the visited set
 			visited[Point{rope[ropeSize-1][0], rope[ropeSize-1][1]}] = struct{}{}
 
 			if enableLogs {

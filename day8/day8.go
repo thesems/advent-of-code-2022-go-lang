@@ -23,59 +23,64 @@ func Day8() {
 
 	for i := 0; i < height; i++ {
 		for j := 0; j < width; j++ {
+			// externally visible trees
 			if i == 0 || j == 0 || i == height-1 || j == width-1 {
 				visible += 1
 				continue
 			}
 
-			leftSmaller := true
-			leftScore := 0
+			visibleFromLeft := true
+			leftVisibleCount := 0
 			for n := j - 1; n >= 0; n-- {
-				if leftSmaller = leftSmaller && grid[i][j] > grid[i][n]; !leftSmaller {
-					leftScore += 1
+				if visibleFromLeft = visibleFromLeft && grid[i][j] > grid[i][n]; !visibleFromLeft {
+					leftVisibleCount += 1
 					break
 				} else {
-					leftScore += 1
+					leftVisibleCount += 1
 				}
 			}
 
-			rightSmaller := true
-			rightScore := 0
+			visibleFromRight := true
+			rightVisibleCount := 0
 			for n := j + 1; n < width; n++ {
-				if rightSmaller = rightSmaller && grid[i][j] > grid[i][n]; !rightSmaller {
-					rightScore += 1
+				if visibleFromRight = visibleFromRight && grid[i][j] > grid[i][n]; !visibleFromRight {
+					rightVisibleCount += 1
 					break
 				} else {
-					rightScore += 1
+					rightVisibleCount += 1
 				}
 			}
 
-			upSmaller := true
-			upScore := 0
+			visibleFromUp := true
+			upVisibleCount := 0
 			for n := i - 1; n >= 0; n-- {
-				if upSmaller = upSmaller && grid[i][j] > grid[n][j]; !upSmaller {
-					upScore += 1
+				if visibleFromUp = visibleFromUp && grid[i][j] > grid[n][j]; !visibleFromUp {
+					upVisibleCount += 1
 					break
 				} else {
-					upScore += 1
+					upVisibleCount += 1
 				}
 			}
 
-			downSmaller := true
-			downScore := 0
+			visibleFromDown := true
+			downVisibleCount := 0
 			for n := i + 1; n < height; n++ {
-				if downSmaller = downSmaller && grid[i][j] > grid[n][j]; !downSmaller {
-					downScore += 1
+				if visibleFromDown = visibleFromDown && grid[i][j] > grid[n][j]; !visibleFromDown {
+					downVisibleCount += 1
 					break
 				} else {
-					downScore += 1
+					downVisibleCount += 1
 				}
 			}
-			if upSmaller || leftSmaller || downSmaller || rightSmaller {
+
+			// Check if the tree is visible from any direction, and if so
+			// increase the count of visible trees
+			if visibleFromUp || visibleFromLeft || visibleFromDown || visibleFromRight {
 				visible += 1
 			}
 
-			score := leftScore * rightScore * upScore * downScore
+			// Obtain the scenic score
+			score := leftVisibleCount * rightVisibleCount * upVisibleCount * downVisibleCount
 			if score > maxScore {
 				maxScore = score
 			}

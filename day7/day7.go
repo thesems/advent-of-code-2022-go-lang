@@ -32,9 +32,10 @@ func Day7() {
 				if tokens[2] == ".." {
 					activeNode = activeNode.Parent()
 				} else {
-					child, err := activeNode.ExistChild(tokens[2])
+					child_name := tokens[2]
+					child, err := activeNode.ExistChild(child_name)
 					if err != nil {
-						newNode := utils.NewNode(activeNode, 0, false, tokens[2])
+						newNode := utils.NewNode(activeNode, 0, false, child_name)
 						activeNode.AddNode(newNode)
 						activeNode = newNode
 					} else {
