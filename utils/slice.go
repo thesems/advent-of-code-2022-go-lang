@@ -1,5 +1,5 @@
 package utils
 
-func deleteElement(slice [][2]int, index int) [][2]int {
+func DeleteElement[K any](slice []K, index int) []K {
 	return append(slice[:index], slice[index+1:]...)
 }
