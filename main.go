@@ -1,6 +1,8 @@
 package main
 
-import "adventofcode/day12"
+import (
+	"adventofcode/day13"
+)
 
 func main() {
 	// day1.Day1()
@@ -14,5 +16,6 @@ func main() {
 	// day9.Day9()
 	// day10.Day10()
 	// day11.Day11()
-	day12.Day12(true)
+	// day12.Day12(true)
+	day13.Day13()
 }
