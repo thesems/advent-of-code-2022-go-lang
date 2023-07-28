@@ -10,7 +10,7 @@ func TestStack1(t *testing.T) {
 	stack.Push('B')
 	stack.Push('C')
 	stack.Pop()
-	stack.Print()
+	// stack.Print()
 
 	if len(stack.items) != 2 {
 		t.Errorf("Stack items differ!")
@@ -24,5 +24,5 @@ func TestStack2(t *testing.T) {
 	stack.Pop()
 	stack.Pop()
 	stack.Pop()
-	stack.Print()
+	// stack.Print()
 }
