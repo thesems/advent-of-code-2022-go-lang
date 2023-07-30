@@ -1,7 +1,7 @@
 package main
 
 import (
-	"adventofcode/day13"
+	"adventofcode/day14"
 )
 
 func main() {
@@ -17,5 +17,6 @@ func main() {
 	// day10.Day10()
 	// day11.Day11()
 	// day12.Day12(true)
-	day13.Day13()
+	// day13.Day13()
+	day14.Day14()
 }
