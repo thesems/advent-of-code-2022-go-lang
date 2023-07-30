@@ -18,5 +18,5 @@ func main() {
 	// day11.Day11()
 	// day12.Day12(true)
 	// day13.Day13()
-	day14.Day14()
+	day14.Day14(true)
 }

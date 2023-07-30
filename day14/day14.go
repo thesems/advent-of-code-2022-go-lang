@@ -23,10 +23,10 @@ func (p *Path) Print() {
 }
 
 const (
+	Air    = 0
 	Rock   = 1
-	Air    = 2
-	Sand   = 3
-	Source = 4
+	Sand   = 2
+	Source = 3
 )
 
 type Cave struct {
@@ -56,7 +56,7 @@ func (c *Cave) Print() {
 	}
 }
 
-func Day14() {
+func Day14(part2 bool) {
 	contents := utils.GetFileContents("day14/input")
 
 	paths := []Path{}
@@ -104,21 +104,21 @@ func Day14() {
 		}
 	}
 
-	// Initialize a cave grid with air
-	cave := Cave{xOffset: minX}
-	cave.Grid = make([][]int, maxY+1)
+	// Initialize the cave grid
+	caveOffset := 250
+	cave := Cave{xOffset: minX - caveOffset}
+	cave.Grid = make([][]int, maxY+1+2) // Add +2 for part 2 of the problem
 
-	for i := 0; i <= maxY; i++ {
-		width := maxX - cave.xOffset
+	for i := 0; i < len(cave.Grid); i++ {
+		// Add bonus size for part 2 of the solution
+		width := (maxX - cave.xOffset) + caveOffset*2
 		cave.Grid[i] = make([]int, width+1)
-
-		for j := 0; j <= width; j++ {
-			cave.Grid[i][j] = Air
-		}
 	}
 
 	// Set cave grid source
 	source := [2]int{500, 0}
+
+	// Initialize cave; +2 for part 2 of the problem
 	cave.Grid[source[1]][source[0]-cave.xOffset] = Source
 
 	// Fill up cave grid with rocks
@@ -155,6 +155,14 @@ func Day14() {
 		}
 	}
 
+	// Initialize Rocks only for part 2 of the problem
+	if part2 {
+		lastRow := len(cave.Grid) - 1
+		for j := 0; j < len(cave.Grid[lastRow]); j++ {
+			cave.Grid[lastRow][j] = Rock
+		}
+	}
+
 	// cave.Print()
 
 	// Simulate sand
@@ -165,17 +173,21 @@ func Day14() {
 
 	for {
 		settled := true
+
 		if tempY+1 >= len(cave.Grid) {
+			// Abyss
 			break
 		} else if cave.Grid[tempY+1][tempX] == Air {
 			tempY += 1
 			settled = false
 		} else if tempX-1 < 0 {
+			// Abyss
 			break
 		} else if cave.Grid[tempY+1][tempX-1] == Air {
 			tempX -= 1
 			settled = false
 		} else if tempX+1 > len(cave.Grid[tempY]) {
+			// Abyss
 			break
 		} else if cave.Grid[tempY+1][tempX+1] == Air {
 			tempX += 1
@@ -186,6 +198,11 @@ func Day14() {
 			cave.Grid[tempY][tempX] = Sand
 			countSettled += 1
 
+			if tempX == source[0]-cave.xOffset && tempY == source[1] {
+				// Cave is full with sand
+				break
+			}
+
 			tempX = source[0] - cave.xOffset
 			tempY = source[1]
 		}
@@ -195,5 +212,10 @@ func Day14() {
 	}
 
 	// cave.Print()
-	fmt.Println("Result part 1:", countSettled)
+	if part2 {
+		fmt.Print("Part 2 ")
+	} else {
+		fmt.Print("Part 1 ")
+	}
+	fmt.Println("result:", countSettled)
 }
