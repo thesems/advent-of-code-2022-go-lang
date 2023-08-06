@@ -57,7 +57,7 @@ func Day12(part2 bool) {
 				elevation = 'Z'
 			}
 
-			area.AddNode(graph.New(elevation))
+			area.AddNode(graph.New(string(elevation), 0))
 		}
 	}
 
@@ -87,8 +87,8 @@ func Day12(part2 bool) {
 				node := area.nodes[idx]
 
 				// Calculate elevations and check if step is possible
-				currentElevation := int(currentNode.Label() - 'A')
-				nodeElevation := int(node.Label() - 'A')
+				currentElevation := int(currentNode.Label[0] - 'A')
+				nodeElevation := int(node.Label[0] - 'A')
 
 				if nodeElevation-currentElevation <= 1 {
 					currentNode.AddChild(node)
@@ -101,7 +101,7 @@ func Day12(part2 bool) {
 
 	if part2 {
 		for idx, node := range area.nodes {
-			if node.Label() == 'A' {
+			if node.Label[0] == 'A' {
 				startNodesIdxs = append(startNodesIdxs, idx)
 			}
 		}
@@ -146,7 +146,7 @@ func Day12(part2 bool) {
 			currentNode := queue.Get()
 			currentNodeIdx := area.FindIndex(currentNode)
 
-			for _, child := range currentNode.Children() {
+			for _, child := range currentNode.Children {
 				childIdx := area.FindIndex(child)
 				if childIdx == -1 {
 					log.Fatal("Could not find the node in the area nodes.")

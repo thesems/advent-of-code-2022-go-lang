@@ -1,23 +1,16 @@
 package graph
 
 type Node struct {
-	children []*Node
-	label    rune
+	Children []*Node
+	Label    string
+	Weight   int
 }
 
-func New(label rune) *Node {
+func New(label string, weight int) *Node {
 	var children []*Node
-	return &Node{children, label}
+	return &Node{children, label, weight}
 }
 
 func (n *Node) AddChild(child *Node) {
-	n.children = append(n.children, child)
-}
-
-func (n *Node) Label() rune {
-	return n.label
-}
-
-func (n *Node) Children() []*Node {
-	return n.children
+	n.Children = append(n.Children, child)
 }
