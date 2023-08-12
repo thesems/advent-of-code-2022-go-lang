@@ -91,7 +91,7 @@ func Day12(part2 bool) {
 				nodeElevation := int(node.Label[0] - 'A')
 
 				if nodeElevation-currentElevation <= 1 {
-					currentNode.AddChild(node)
+					currentNode.AddChild(node, 0)
 				}
 			}
 		}
