@@ -126,9 +126,6 @@ func (w *World) CalculateExternalArea(cubes []*Cube) int {
         }
 	}
 
-    fmt.Println(len(visited))
-    fmt.Println(len(cubes))
-
 	return area
 }
 
