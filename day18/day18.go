@@ -4,15 +4,61 @@ import (
 	"adventofcode/utils"
 	"fmt"
 	"log"
-	"math"
 	"strconv"
 	"strings"
 )
 
+const (
+	UNKNOWN = 0
+	AIR     = 1
+	DROPLET = 2
+)
+
 type Cube struct {
 	x, y, z    int
-	external   bool
-	neighbours []*Cube
+}
+
+type World struct {
+	minX, maxX int
+	minY, maxY int
+	minZ, maxZ int
+	cubes      []*Cube
+}
+
+func (c *Cube) GetNeighbours() []*Cube {
+	return []*Cube{
+		{c.x + 1, c.y, c.z},
+		{c.x, c.y + 1, c.z},
+		{c.x, c.y, c.z + 1},
+		{c.x - 1, c.y, c.z},
+		{c.x, c.y - 1, c.z},
+		{c.x, c.y, c.z - 1},
+	}
+}
+
+func (w *World) Exists(cube *Cube) bool {
+	for _, c := range w.cubes {
+		for cube.x == c.x && cube.y == c.y && cube.z == c.z {
+			return true
+		}
+	}
+	return false
+}
+
+func (w *World) InBounds(cube *Cube) bool {
+	if cube.x > w.minX - 2 && cube.x < w.maxX + 2 && cube.y > w.minY - 2 && cube.y < w.maxY + 2 && cube.z > w.minZ - 2 && cube.z < w.maxZ + 2 {
+		return true
+	}
+	return false
+}
+
+func (w *World) IsAir(cube *Cube) bool {
+	for _, item := range w.cubes {
+		if item.x == cube.x && item.y == cube.y && item.z == cube.z {
+			return false
+		}
+	}
+	return true
 }
 
 func CalculateSurfaceArea(cubes []*Cube) int {
@@ -24,7 +70,6 @@ func CalculateSurfaceArea(cubes []*Cube) int {
 
 			if dist == 1 {
 				surfaces -= 1
-				cube1.neighbours = append(cube1.neighbours, cube2)
 			}
 		}
 		area += surfaces
@@ -32,7 +77,7 @@ func CalculateSurfaceArea(cubes []*Cube) int {
 	return area
 }
 
-func markCubeAsExternal(cubes []*Cube) {
+func NewWorld(cubes []*Cube) *World {
 	minX, minY, minZ := int(^uint(0)>>1), int(^uint(0)>>1), int(^uint(0)>>1) // maximum int values
 	maxX, maxY, maxZ := -minX, -minY, -minZ                                  // minimum int values
 
@@ -45,31 +90,45 @@ func markCubeAsExternal(cubes []*Cube) {
 		maxZ = utils.Max(maxZ, cube.z)
 	}
 
-	for _, cube := range cubes {
-		if cube.x == minX || cube.x == maxX || cube.y == minY || cube.y == maxY || cube.z == minZ || cube.z == maxZ {
-			cube.external = true
-		}
+	return &World{
+		minX - 1, maxX + 1, minY - 1, maxY + 1, minZ - 1, maxZ + 1, cubes,
 	}
 }
 
-func CalculateNeighbourSurfaces(cubes []*Cube) int {
-    startCube := cubes[0]
-	area := 0
+func (w *World) CalculateExternalArea(cubes []*Cube) int {
+	startCube := &Cube{w.minX, w.minY, w.minZ}
 	queue := []*Cube{startCube}
-	visited := map[*Cube]struct{}{}
-
-	for len(queue) > 0 {
+	visited := map[Cube]struct{}{}
+    area := 0
+	
+    for len(queue) > 0 {
 		cube := queue[0]
 		queue = queue[1:]
 
-		if _, ok := visited[cube]; ok {
+		if _, ok := visited[*cube]; ok {
 			continue
 		}
 
-		area += 6 - len(cube.neighbours)
-		queue = append(queue, cube.neighbours...)
-		visited[cube] = struct{}{}
+        if w.Exists(cube) || !w.InBounds(cube) {
+            continue
+        }
+
+        // fmt.Printf("x,y,z = %d,%d,%d\n", cube.x, cube.y, cube.z)
+
+        neighbours := cube.GetNeighbours()
+        queue = append(queue, neighbours...)
+		visited[*cube] = struct{}{}
+
+        for _, c1 := range neighbours {
+            if w.Exists(c1) {
+                area += 1
+            }
+        }
 	}
+
+    fmt.Println(len(visited))
+    fmt.Println(len(cubes))
+
 	return area
 }
 
@@ -95,15 +154,15 @@ func Day18(part2 bool) {
 			log.Fatal("NaN")
 		}
 
-		neighbours := make([]*Cube, 0)
-		cubes = append(cubes, &Cube{x, y, z, false, neighbours})
+		cubes = append(cubes, &Cube{x, y, z})
 	}
 
 	// fmt.Print(cubes)
+	world := NewWorld(cubes)
 
-	result := CalculateSurfaceArea(cubes)
+    result := CalculateSurfaceArea(cubes)
 	fmt.Println("Result part 1:", result)
 
-    result = CalculateNeighbourSurfaces(cubes)
+	result = world.CalculateExternalArea(cubes)
 	fmt.Println("Result part 2:", result)
 }
