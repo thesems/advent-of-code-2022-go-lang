@@ -21,6 +21,6 @@ func main() {
 	// day14.Day14(true)
 	// day15.Day15()
 	// day16.Day16(true)
-    // day18.Day18(false)
-    day20.Day20()
+	// day18.Day18(false)
+	day20.Day20(true)
 }
