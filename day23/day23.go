@@ -83,7 +83,7 @@ func PrintGrid(grid map[coord]struct{}) {
     }
 }
 
-func Day23() {
+func Day23(part2 bool) {
 	contents := utils.GetFileContents("day23/input")
 
 	grid := make(map[coord]struct{})
@@ -102,9 +102,10 @@ func Day23() {
 
 	round := 0
 	directionOrder := 0
-	for round != 10 {
+	for round != 10 || part2 {
 		// destination, sources
 		proposedMoves := make(map[coord][]coord)
+        noMoves := true
 
 		for currCoord := range grid {
 			neighbours := currCoord.getNeighbours()
@@ -129,6 +130,8 @@ func Day23() {
                 if alone {
                     break
                 }
+
+                noMoves = false
 
                 // Get direct neighbour for the specific  direction
 				neighbour := neighbours[i]
@@ -172,9 +175,14 @@ func Day23() {
 			directionOrder = 0
 		}
 
-        fmt.Println()
+        // fmt.Println()
         fmt.Printf("== End of Round %d ==\n", round)
-        PrintGrid(grid)
+        // PrintGrid(grid)
+
+        if noMoves {
+            fmt.Println("Results part 2:", round)
+            break
+        }
 	}
 
 	freeTiles := make(map[coord]struct{})
