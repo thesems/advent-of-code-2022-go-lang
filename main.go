@@ -1,8 +1,7 @@
 package main
 
 import (
-	// "adventofcode/day20"
-	"adventofcode/day21"
+	"adventofcode/day23"
 )
 
 func main() {
@@ -24,5 +23,6 @@ func main() {
 	// day16.Day16(true)
 	// day18.Day18(false)
 	// day20.Day20(true)
-    day21.Day21()
+    // day21.Day21()
+    day23.Day23()
 }
