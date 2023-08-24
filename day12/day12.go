@@ -143,7 +143,7 @@ func Day12(part2 bool) {
 			}
 
 			// Get node from the queue
-			currentNode := queue.Get()
+			currentNode := queue.Pop()
 			currentNodeIdx := area.FindIndex(currentNode)
 
 			for _, child := range currentNode.Children {
