@@ -55,10 +55,6 @@ type Monkey struct {
 	inspectionCount      int
 }
 
-func (m *Monkey) getCommonDivisor() int {
-	return 0
-}
-
 func (m *Monkey) doOperation() {
 	m.items[0] = m.operation.do(m.items[0])
 }

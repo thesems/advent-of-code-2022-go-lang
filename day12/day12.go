@@ -136,14 +136,9 @@ func Day12(part2 bool) {
 		visited[nodeIdx] = true
 
 		// BFS transversal algorithm
-		for {
-			if queue.Empty() {
-				// If the queue has no items, all nodes has been visited
-				break
-			}
-
+		for !queue.Empty() {
 			// Get node from the queue
-			currentNode := queue.Pop()
+			currentNode := queue.Get()
 			currentNodeIdx := area.FindIndex(currentNode)
 
 			for _, child := range currentNode.Children {
